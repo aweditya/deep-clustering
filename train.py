@@ -5,6 +5,8 @@ import json
 import torch
 from asteroid.data import LibriMix
 from torch.utils.data import DataLoader
+from asteroid_filterbanks.transforms import mag
+from asteroid.dsp.vad import ebased_vad
 from pytorch_metric_learning.losses import BaseMetricLossFunction
 
 from model import make_model
@@ -93,6 +95,21 @@ class DeepClusteringLoss(BaseMetricLossFunction):
 def batch_matrix_norm(matrix, norm_order=2):
     keep_batch = list(range(1, matrix.ndim))
     return torch.norm(matrix, p=norm_order, dim=keep_batch) ** norm_order
+
+def train(train_loader, model, loss_fn, optimizer):
+    model.train()
+
+    for batch, (mixture, sources) in enumerate(train_loader):
+        # Compute magnitude spectrograms and ideal ratio mask (IRM)
+        sources_magnitude_spectrogram = mag(self.model.encoder(sources))
+
+        # Normalise to get the real_mask. Maximise to get the binary mask
+        real_mask = sources_magnitude_spectrogram / (sources_magnitude_spectrogram.sum(1, keepdim=True) + epsilon)
+        binary_mask = real_mask.argmax(1)
+
+        est_embeddings = model(mixture)
+        deep_clustering_loss = loss_fn.compute_loss(est_embeddings, binary_mask)
+
 
 if __name__ == "__main__":
     import yaml
