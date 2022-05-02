@@ -48,10 +48,10 @@ class Embedding(nn.Module):
         self.embedding_activation = nn.Tanh()
         self.epsilon = epsilon
 
-    def forward(self, x):
+    def forward(self, input_data):
         batch_size, _, frames = input_data.shape
         if self.take_log:
-            x = torch.log(x + self.epsilon)
+            x = torch.log(input_data + self.epsilon)
 
         # LSTM layers
         lstm_output = self.lstm(x.permute(0, 2, 1))
