@@ -54,9 +54,13 @@ def main(conf):
     )
     conf["deepclustering"].update({"n_src": conf["data"]["n_src"]})
 
+    # Define the model, loss function and optimizer
     model = make_model(conf)
     loss_fn = DeepClusteringLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=conf["optim"]["lr"], momentum=conf["optim"]["momentum"])
+
+    # Train the model
+    train(train_loader, model, loss_fn, optimizer)
 
 
 # Taken from https://github.com/asteroid-team/asteroid/blob/master/asteroid/losses/cluster.py
@@ -96,20 +100,33 @@ def batch_matrix_norm(matrix, norm_order=2):
     keep_batch = list(range(1, matrix.ndim))
     return torch.norm(matrix, p=norm_order, dim=keep_batch) ** norm_order
 
-def train(train_loader, model, loss_fn, optimizer):
+def train(train_loader, model, loss_fn, optimizer, epsilon=1e-8):
+    size = len(train_loader)
     model.train()
-
     for batch, (mixture, sources) in enumerate(train_loader):
         # Compute magnitude spectrograms and ideal ratio mask (IRM)
-        sources_magnitude_spectrogram = mag(self.model.encoder(sources))
+        sources_magnitude_spectrogram = mag(model.encoder(sources))
 
         # Normalise to get the real_mask. Maximise to get the binary mask
         real_mask = sources_magnitude_spectrogram / (sources_magnitude_spectrogram.sum(1, keepdim=True) + epsilon)
         binary_mask = real_mask.argmax(1)
 
+        # Compute loss
         est_embeddings = model(mixture)
-        deep_clustering_loss = loss_fn.compute_loss(est_embeddings, binary_mask)
+        spectral_magnitude = mag(model.encoder(mixture.unsqueeze(1)))
+        silence_mask = ebased_vad(spectral_magnitude)
+        deep_clustering_loss = loss_fn.compute_loss(est_embeddings, binary_mask, silence_mask)
+        
+        # deep_clustering_loss is a tensor. Use its mean for backpropagation
+        loss = deep_clustering_loss.mean()
 
+        # Backpropagation
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        loss, current = loss.item(), batch * len(mixture)
+        print(f"loss: {loss:7f}    [{current:>5d}/{size:>5d}]")
 
 if __name__ == "__main__":
     import yaml
