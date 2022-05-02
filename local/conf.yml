@@ -1,0 +1,33 @@
+# filterbank config
+filterbank:
+  n_filters: 512
+  kernel_size: 16
+  stride: 8
+# Network config
+deepclustering:
+  rnn_type: lstm
+  n_layers: 2
+  hidden_layer_size: 600
+  dropout: 0.3
+  embedding_dim: 40
+  take_log: y
+# Training config
+training:
+  epochs: 200
+  batch_size: 32
+  num_workers: 8
+  half_lr: no
+  early_stop: yes
+# Optim config
+optim:
+  optimizer: SGD
+  lr: 0.0001
+  momentum: 0.9
+# Data config
+data:
+  task: sep_clean
+  train_dir: data/wav8k/min/train-100
+  valid_dir: data/wav8k/min/test
+  sample_rate: 8000
+  n_src: 2
+  segment: 3
