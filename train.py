@@ -11,6 +11,8 @@ from pytorch_metric_learning.losses import BaseMetricLossFunction
 
 from model import make_model
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 # Keys which are not in the conf.yml file can be added here.
 # In the hierarchical dictionary created when parsing, the key `key` can be
 # found at dic['main_args'][key]
@@ -56,6 +58,10 @@ def main(conf):
 
     # Define the model, loss function and optimizer
     model = make_model(conf)
+
+    if torch.cuda.is_available():
+        model.cuda()
+
     loss_fn = DeepClusteringLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=conf["optim"]["lr"], momentum=conf["optim"]["momentum"])
 
@@ -104,6 +110,8 @@ def train(train_loader, model, loss_fn, optimizer, epsilon=1e-8):
     size = len(train_loader)
     model.train()
     for batch, (mixture, sources) in enumerate(train_loader):
+        mixture, sources = mixture.to(device), sources.to(device)
+
         # Compute magnitude spectrograms and ideal ratio mask (IRM)
         sources_magnitude_spectrogram = mag(model.encoder(sources))
 
