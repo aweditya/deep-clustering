@@ -84,7 +84,7 @@ class Model(nn.Module):
     def forward(self, x):
         if len(x.shape) == 2:
             x = x.unsqueeze(1)
-        tf_representation = self.encode(x)
+        tf_representation = self.encoder(x)
         spectral_magnitude = mag(tf_representation)
         normalised_embedding = self.embedding(spectral_magnitude)
         return normalised_embedding
