@@ -65,7 +65,8 @@ def main(conf):
     optimizer = torch.optim.RMSprop(model.parameters(), lr=conf["optim"]["lr"], momentum=conf["optim"]["momentum"])
 
     # Train the model
-    train(train_loader, model, optimizer)
+    for epoch in range(conf["training"]["epochs"]):
+        train(train_loader, model, optimizer)
 
 def train(train_loader, model, optimizer, epsilon=1e-8):
     size = len(train_loader.dataset)
@@ -95,7 +96,7 @@ def train(train_loader, model, optimizer, epsilon=1e-8):
         loss.backward()
         optimizer.step()
 
-        loss, current = loss.item(), batch * len(X)
+        loss, current = loss.item(), batch * len(mixture)
         print(f"loss: {loss:7f} [{current:>5d}/{size:>5d}]")
 
 if __name__ == "__main__":
