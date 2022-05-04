@@ -1,90 +1,145 @@
-absl-py==1.0.0
-aiohttp==3.8.1
-aiosignal==1.2.0
-appdirs @ file:///home/conda/feedstock_root/build_artifacts/appdirs_1603108395799/work
--e git+https://github.com/asteroid-team/asteroid.git@f4a563b30d7b357c9894d9f6c86a4b4b58fee103#egg=asteroid
-asteroid-filterbanks==0.4.0
-async-timeout==4.0.2
-attrs==21.4.0
-audioread @ file:///home/conda/feedstock_root/build_artifacts/audioread_1649550211627/work
-brotlipy @ file:///home/conda/feedstock_root/build_artifacts/brotlipy_1648854164373/work
-cached-property==1.5.2
-cachetools==5.0.0
-certifi==2021.10.8
-cffi @ file:///opt/conda/conda-bld/cffi_1642701102775/work
-charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1644853463426/work
-cryptography @ file:///home/conda/feedstock_root/build_artifacts/cryptography_1649035236822/work
-cycler @ file:///home/conda/feedstock_root/build_artifacts/cycler_1635519461629/work
-decorator @ file:///home/conda/feedstock_root/build_artifacts/decorator_1641555617451/work
-einops==0.4.1
-filelock==3.6.0
-fonttools @ file:///home/conda/feedstock_root/build_artifacts/fonttools_1651017733844/work
-frozenlist==1.3.0
-fsspec==2022.3.0
-future==0.18.2
-google-auth==2.6.6
-google-auth-oauthlib==0.4.6
-grpcio==1.44.0
-huggingface-hub==0.5.1
-idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1642433548627/work
-importlib-metadata==4.11.3
-joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1633637554808/work
-julius==0.2.6
-kiwisolver @ file:///home/conda/feedstock_root/build_artifacts/kiwisolver_1648854392795/work
-librosa @ file:///home/conda/feedstock_root/build_artifacts/librosa_1644967835314/work
-llvmlite==0.38.0
-Markdown==3.3.6
-matplotlib @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-suite_1639359646028/work
-mir-eval==0.7
-multidict==6.0.2
-munkres==1.1.4
-numba @ file:///home/conda/feedstock_root/build_artifacts/numba_1644003844419/work
-numpy==1.22.3
-oauthlib==3.2.0
-olefile @ file:///home/conda/feedstock_root/build_artifacts/olefile_1602866521163/work
-packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1637239678211/work
-pandas==1.4.2
-pb-bss-eval==0.0.2
-pesq==0.0.3
-Pillow @ file:///home/conda/feedstock_root/build_artifacts/pillow_1602493092985/work
-pooch @ file:///home/conda/feedstock_root/build_artifacts/pooch_1643032624649/work
-protobuf==3.20.1
-pyasn1==0.4.8
-pyasn1-modules==0.2.8
-pycparser @ file:///home/conda/feedstock_root/build_artifacts/pycparser_1636257122734/work
-pyDeprecate==0.3.1
-pyOpenSSL @ file:///home/conda/feedstock_root/build_artifacts/pyopenssl_1643496850550/work
-pyparsing @ file:///home/conda/feedstock_root/build_artifacts/pyparsing_1649603503565/work
-PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1648857263093/work
-pystoi==0.3.3
-python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1626286286081/work
-pytorch-lightning==1.4.9
-pytorch-metric-learning==1.3.0
-pytorch-ranger==0.1.1
-pytz==2022.1
-PyYAML==6.0
-requests @ file:///home/conda/feedstock_root/build_artifacts/requests_1641580202195/work
-requests-oauthlib==1.3.1
-resampy==0.2.2
-rsa==4.8
-scikit-learn @ file:///home/conda/feedstock_root/build_artifacts/scikit-learn_1640464150285/work
-scipy @ file:///home/conda/feedstock_root/build_artifacts/scipy_1644357253444/work
-six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
-SoundFile @ file:///home/conda/feedstock_root/build_artifacts/pysoundfile_1607011569782/work
-tensorboard==2.9.0
-tensorboard-data-server==0.6.1
-tensorboard-plugin-wit==1.8.1
-threadpoolctl @ file:///home/conda/feedstock_root/build_artifacts/threadpoolctl_1643647933166/work
-torch==1.11.0
-torch-optimizer==0.1.0
-torch-stoi==0.1.2
-torchaudio==0.11.0
-torchmetrics==0.8.1
-torchvision==0.12.0
-tqdm==4.64.0
-typing_extensions==4.2.0
-unicodedata2 @ file:///home/conda/feedstock_root/build_artifacts/unicodedata2_1649111919389/work
-urllib3 @ file:///home/conda/feedstock_root/build_artifacts/urllib3_1647489083693/work
-Werkzeug==2.1.2
-yarl==1.7.2
-zipp==3.8.0
+# This file may be used to create an environment using:
+# $ conda create --name <env> --file <this file>
+# platform: linux-64
+_libgcc_mutex=0.1=conda_forge
+_openmp_mutex=4.5=2_gnu
+absl-py=1.0.0=pypi_0
+aiohttp=3.8.1=pypi_0
+aiosignal=1.2.0=pypi_0
+appdirs=1.4.4=pyh9f0ad1d_0
+asteroid=0.6.0.dev0=dev_0
+asteroid-filterbanks=0.4.0=pypi_0
+async-timeout=4.0.2=pypi_0
+attrs=21.4.0=pypi_0
+audioread=2.1.9=py39hf3d152e_3
+brotlipy=0.7.0=py39hb9d737c_1004
+bzip2=1.0.8=h7f98852_4
+ca-certificates=2021.10.8=ha878542_0
+cached-property=1.5.2=pypi_0
+cachetools=5.0.0=pypi_0
+certifi=2021.10.8=py39hf3d152e_2
+cffi=1.15.0=py39hd667e15_1
+charset-normalizer=2.0.12=pyhd8ed1ab_0
+cryptography=36.0.2=py39hd97740a_1
+cycler=0.11.0=pyhd8ed1ab_0
+decorator=5.1.1=pyhd8ed1ab_0
+einops=0.4.1=pypi_0
+ffmpeg=4.3.2=hca11adc_0
+filelock=3.6.0=pypi_0
+fonttools=4.33.3=pypi_0
+freetype=2.10.4=h0708190_1
+frozenlist=1.3.0=pypi_0
+fsspec=2022.3.0=pypi_0
+future=0.18.2=pypi_0
+gettext=0.19.8.1=h0b5b191_1005
+gmp=6.2.1=h58526e2_0
+gnutls=3.6.13=h85f3911_1
+google-auth=2.6.6=pypi_0
+google-auth-oauthlib=0.4.6=pypi_0
+grpcio=1.46.0=pypi_0
+huggingface-hub=0.5.1=pypi_0
+idna=3.3=pyhd8ed1ab_0
+importlib-metadata=4.11.3=pypi_0
+joblib=1.1.0=pyhd8ed1ab_0
+jpeg=9e=h166bdaf_1
+julius=0.2.6=pypi_0
+kiwisolver=1.4.2=py39hf939315_1
+lame=3.100=h7f98852_1001
+lcms2=2.12=hddcbb42_0
+ld_impl_linux-64=2.35.1=h7274673_9
+libblas=3.9.0=14_linux64_openblas
+libcblas=3.9.0=14_linux64_openblas
+libffi=3.3=he6710b0_2
+libflac=1.3.4=h27087fc_0
+libgcc-ng=11.2.0=h1d223b6_16
+libgfortran-ng=11.2.0=h69a702a_16
+libgfortran5=11.2.0=h5c6108e_16
+libgomp=11.2.0=h1d223b6_16
+liblapack=3.9.0=14_linux64_openblas
+libllvm11=11.1.0=hf817b99_2
+libogg=1.3.4=h7f98852_1
+libopenblas=0.3.20=pthreads_h78a6416_0
+libopus=1.3.1=h7f98852_1
+libpng=1.6.37=h21135ba_2
+librosa=0.9.1=pyhd8ed1ab_0
+libsndfile=1.0.31=h9c3ff4c_1
+libstdcxx-ng=11.2.0=he4da1e4_16
+libtiff=4.2.0=h85742a9_0
+libvorbis=1.3.7=h9c3ff4c_0
+libwebp-base=1.2.2=h7f98852_1
+llvmlite=0.38.0=py39h4ff587b_0
+lz4-c=1.9.3=h9c3ff4c_1
+mad=0.15.1b=he1b5a44_0
+markdown=3.3.6=pypi_0
+matplotlib=3.5.2=pypi_0
+matplotlib-base=3.4.3=py39h2fa2bec_2
+mir-eval=0.7=pypi_0
+multidict=6.0.2=pypi_0
+ncurses=6.3=h7f8727e_2
+nettle=3.6=he412f7d_0
+numba=0.55.1=py39h56b8d98_0
+numpy=1.22.3=pypi_0
+oauthlib=3.2.0=pypi_0
+olefile=0.46=pyh9f0ad1d_1
+openh264=2.1.1=h780b84a_0
+openssl=1.1.1o=h166bdaf_0
+packaging=21.3=pyhd8ed1ab_0
+pandas=1.4.2=pypi_0
+pb-bss-eval=0.0.2=pypi_0
+pesq=0.0.3=pypi_0
+pillow=9.1.0=pypi_0
+pip=21.2.4=py39h06a4308_0
+pooch=1.6.0=pyhd8ed1ab_0
+protobuf=3.20.1=pypi_0
+pyasn1=0.4.8=pypi_0
+pyasn1-modules=0.2.8=pypi_0
+pycparser=2.21=pyhd8ed1ab_0
+pydeprecate=0.3.1=pypi_0
+pyloudnorm=0.1.0=pypi_0
+pyopenssl=22.0.0=pyhd8ed1ab_0
+pyparsing=3.0.8=pyhd8ed1ab_0
+pysndfx=0.3.6=pypi_0
+pysocks=1.7.1=py39hf3d152e_5
+pysoundfile=0.10.3.post1=pyhd3deb0d_0
+pystoi=0.3.3=pypi_0
+python=3.9.12=h12debd9_0
+python-dateutil=2.8.2=pyhd8ed1ab_0
+python_abi=3.9=2_cp39
+pytorch-lightning=1.4.9=pypi_0
+pytorch-ranger=0.1.1=pypi_0
+pytz=2022.1=pypi_0
+pyyaml=6.0=pypi_0
+readline=8.1.2=h7f8727e_1
+requests=2.27.1=pyhd8ed1ab_0
+requests-oauthlib=1.3.1=pypi_0
+resampy=0.2.2=py_0
+rsa=4.8=pypi_0
+scikit-learn=1.0.2=py39h4dfa638_0
+scipy=1.8.0=py39hee8e79c_1
+setuptools=61.2.0=py39h06a4308_0
+six=1.16.0=pyh6c4a22f_0
+sox=14.4.2=h27f72bc_1013
+sqlite=3.38.2=hc218d9a_0
+tensorboard=2.9.0=pypi_0
+tensorboard-data-server=0.6.1=pypi_0
+tensorboard-plugin-wit=1.8.1=pypi_0
+threadpoolctl=3.1.0=pyh8a188c0_0
+tk=8.6.11=h1ccaba5_0
+torch=1.11.0=pypi_0
+torch-optimizer=0.1.0=pypi_0
+torch-stoi=0.1.2=pypi_0
+torchaudio=0.11.0=pypi_0
+torchmetrics=0.8.1=pypi_0
+tornado=6.1=py39hb9d737c_3
+tqdm=4.64.0=pypi_0
+typing-extensions=4.2.0=pypi_0
+tzdata=2022a=hda174b7_0
+urllib3=1.26.9=pyhd8ed1ab_0
+werkzeug=2.1.2=pypi_0
+wheel=0.37.1=pyhd3eb1b0_0
+x264=1!161.3030=h7f98852_1
+xz=5.2.5=h7f8727e_1
+yarl=1.7.2=pypi_0
+zipp=3.8.0=pypi_0
+zlib=1.2.12=h7f8727e_2
+zstd=1.4.9=ha95c52a_0
