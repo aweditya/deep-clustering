@@ -9,9 +9,10 @@ from asteroid.dsp.vad import ebased_vad
 from asteroid.masknn.recurrent import SingleRNN
 from asteroid.utils.torch_utils import pad_x_to_y
 
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
 # This is the base Deep Clustering model without the Mask Inference head used in Chimera++
 # Adapted from https://github.com/asteroid-team/asteroid/blob/master/egs/wsj0-mix/DeepClustering/model.py
-
 def make_model(conf):
     encoder, decoder = make_enc_dec('stft', **conf["filterbank"])
     embedding = Embedding(encoder.n_feats_out // 2, **conf["deepclustering"])
@@ -52,10 +53,10 @@ class Embedding(nn.Module):
     def forward(self, input_data):
         batch_size, _, frames = input_data.shape
         if self.take_log:
-            x = torch.log(input_data + self.epsilon)
+            input_data = torch.log(input_data + self.epsilon)
 
         # LSTM layers
-        lstm_output = self.lstm(x.permute(0, 2, 1))
+        lstm_output = self.lstm(input_data.permute(0, 2, 1))
         lstm_output = self.dropout(lstm_output)
 
         # Fully connected layer
@@ -91,10 +92,12 @@ class Model(nn.Module):
         return normalised_embedding
 
     def cluster(self, x):
-        kmeans = KMeans(n_clusters=self.Embedding.n_src)
+        x = x.to(device)
+
+        kmeans = KMeans(n_clusters=self.embedding.n_src)
         if len(x.shape) == 2:
             x = x.unsqueeze(1)
-        tf_representation = self.encode(x)
+        tf_representation = self.encoder(x)
         spectral_magnitude = mag(tf_representation)
         normalised_embedding = self.embedding(spectral_magnitude)
 
@@ -107,7 +110,7 @@ class Model(nn.Module):
 
         # Create masks
         est_masks = []
-        for i in range(self.Embedding.n_src):
+        for i in range(self.embedding.n_src):
             mask = ~retained_bins
             mask[retained_bins] = torch.from_numpy((clusters == i)).to(mask.device)
             est_masks.append(mask.float())
@@ -116,5 +119,5 @@ class Model(nn.Module):
         estimated_masks = torch.stack(est_masks, dim=1)
         masked_representation = apply_mag_mask(tf_representation, estimated_masks)
         # Pad masked audio to have same size as original
-        separated_wav = pad_x_to_y(self.decoder(masked), x)
-        return separated_wav
+        separated_wav = pad_x_to_y(self.decoder(masked_representation), x)
+        return separated_wav.cpu()
