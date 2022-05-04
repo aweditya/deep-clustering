@@ -67,8 +67,8 @@ def main(conf):
     # Train the model
     train(train_loader, model, optimizer)
 
-def train(train_loader, model,  optimizer, epsilon=1e-8):
-    size = len(train_loader)
+def train(train_loader, model, optimizer, epsilon=1e-8):
+    size = len(train_loader.dataset)
     model.train()
 
     for batch, (mixture, sources) in enumerate(train_loader):
@@ -95,8 +95,8 @@ def train(train_loader, model,  optimizer, epsilon=1e-8):
         loss.backward()
         optimizer.step()
 
-        loss, current = loss.item(), batch * len(mixture)
-        print(f"loss: {loss:7f}    [{current:>5d}/{size:>5d}]")
+        loss, current = loss.item(), batch * len(X)
+        print(f"loss: {loss:7f} [{current:>5d}/{size:>5d}]")
 
 if __name__ == "__main__":
     import yaml
