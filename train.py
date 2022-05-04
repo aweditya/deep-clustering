@@ -7,7 +7,7 @@ from asteroid.data import LibriMix
 from torch.utils.data import DataLoader
 from asteroid_filterbanks.transforms import mag
 from asteroid.dsp.vad import ebased_vad
-from pytorch_metric_learning.losses import BaseMetricLossFunction
+from asteroid.losses import deep_clustering_loss
 
 from model import make_model
 
@@ -62,53 +62,15 @@ def main(conf):
     if torch.cuda.is_available():
         model.cuda()
 
-    loss_fn = DeepClusteringLoss()
-    optimizer = torch.optim.SGD(model.parameters(), lr=conf["optim"]["lr"], momentum=conf["optim"]["momentum"])
+    optimizer = torch.optim.RMSprop(model.parameters(), lr=conf["optim"]["lr"], momentum=conf["optim"]["momentum"])
 
     # Train the model
-    train(train_loader, model, loss_fn, optimizer)
+    train(train_loader, model, optimizer)
 
-
-# Taken from https://github.com/asteroid-team/asteroid/blob/master/asteroid/losses/cluster.py
-class DeepClusteringLoss(BaseMetricLossFunction):
-    def compute_loss(self, embedding, tgt_index, binary_mask=None):
-        spk_cnt = len(tgt_index.unique())
-
-        batch, bins, frames = tgt_index.shape
-        if binary_mask is None:
-            binary_mask = torch.ones(batch, bins * frames, 1)
-        binary_mask = binary_mask.float()
-        if len(binary_mask.shape) == 3:
-            binary_mask = binary_mask.view(batch, bins * frames, 1)
-
-        # If boolean mask, make it float.
-        binary_mask = binary_mask.to(tgt_index.device)
-
-        # Fill in one-hot vector for each TF bin
-        tgt_embedding = torch.zeros(batch, bins * frames, spk_cnt, device=tgt_index.device)
-        tgt_embedding.scatter_(2, tgt_index.view(batch, bins * frames, 1), 1)
-
-        # Compute VAD-weighted DC loss
-        tgt_embedding = tgt_embedding * binary_mask
-        embedding = embedding * binary_mask
-        est_proj = torch.einsum("ijk,ijl->ikl", embedding, embedding)
-        true_proj = torch.einsum("ijk,ijl->ikl", tgt_embedding, tgt_embedding)
-        true_est_proj = torch.einsum("ijk,ijl->ikl", embedding, tgt_embedding)
-
-        # Equation (1) in [1]
-        cost = batch_matrix_norm(est_proj) + batch_matrix_norm(true_proj)
-        cost = cost - 2 * batch_matrix_norm(true_est_proj)
-
-        # Divide by number of active bins, for each element in batch
-        return cost / torch.sum(binary_mask, dim=[1, 2])
-
-def batch_matrix_norm(matrix, norm_order=2):
-    keep_batch = list(range(1, matrix.ndim))
-    return torch.norm(matrix, p=norm_order, dim=keep_batch) ** norm_order
-
-def train(train_loader, model, loss_fn, optimizer, epsilon=1e-8):
+def train(train_loader, model,  optimizer, epsilon=1e-8):
     size = len(train_loader)
     model.train()
+
     for batch, (mixture, sources) in enumerate(train_loader):
         mixture, sources = mixture.to(device), sources.to(device)
 
@@ -123,10 +85,10 @@ def train(train_loader, model, loss_fn, optimizer, epsilon=1e-8):
         est_embeddings = model(mixture)
         spectral_magnitude = mag(model.encoder(mixture.unsqueeze(1)))
         silence_mask = ebased_vad(spectral_magnitude)
-        deep_clustering_loss = loss_fn.compute_loss(est_embeddings, binary_mask, silence_mask)
+        dc_loss = deep_clustering_loss(est_embeddings, binary_mask, silence_mask)
         
         # deep_clustering_loss is a tensor. Use its mean for backpropagation
-        loss = deep_clustering_loss.mean()
+        loss = dc_loss.mean()
 
         # Backpropagation
         optimizer.zero_grad()
